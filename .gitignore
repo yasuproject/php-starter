@@ -1,0 +1,28 @@
+.env
+.env.local
+.env.production
+
+# Composer
+vendor/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Cache
+cache/
+*.cache
+
+# Uploads
+uploads/
+public/uploads/
