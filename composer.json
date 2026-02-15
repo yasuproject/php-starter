@@ -1,0 +1,10 @@
+{
+    "name": "php-starter/app",
+    "authors": [
+        {
+            "name": "yasunurumom",
+            "email": "yasunurumom@gmail.com"
+        }
+    ],
+    "require": {}
+}
