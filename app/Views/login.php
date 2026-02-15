@@ -8,6 +8,45 @@
     <title>Admin Login</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ionic@latest/css/ionic.bundle.css">
     <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .alert {
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .alert-error {
+            background: #fee2e2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+        
+        .alert-success {
+            background: #d1fae5;
+            color: #059669;
+            border: 1px solid #a7f3d0;
+        }
+        
+        [data-theme="dark"] .alert-error {
+            background: #7f1d1d;
+            color: #fca5a5;
+            border-color: #991b1b;
+        }
+        
+        [data-theme="dark"] .alert-success {
+            background: #064e3b;
+            color: #6ee7b7;
+            border-color: #065f46;
+        }
+    </style>
 </head>
 <body>
     <button class="dark-mode-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
@@ -26,19 +65,34 @@
                 <p>Sign in to continue</p>
             </div>
 
-            <form action="/admin/login" method="POST">
+            <?php if (isset($error) && $error): ?>
+                <div class="alert alert-error">
+                    <ion-icon name="alert-circle-outline"></ion-icon>
+                    <?= htmlspecialchars($error) ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if (isset($success) && $success): ?>
+                <div class="alert alert-success">
+                    <ion-icon name="checkmark-circle-outline"></ion-icon>
+                    <?= htmlspecialchars($success) ?>
+                </div>
+            <?php endif; ?>
+
+            <form action="/login" method="POST">
                 <div class="form-group">
                     <div class="input-wrapper">
                         <input 
-                            type="email" 
+                            type="text" 
                             id="email" 
                             name="email" 
                             class="form-input" 
-                            placeholder="Email address" 
+                            placeholder="Email or username" 
                             required
                             autocomplete="email"
+                            value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>"
                         >
-                        <ion-icon class="input-icon" name="mail-outline"></ion-icon>
+                        <ion-icon class="input-icon" name="person-outline"></ion-icon>
                     </div>
                 </div>
 

@@ -4,16 +4,26 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $requestUri = $_SERVER['REQUEST_URI'];
 $path = parse_url($requestUri, PHP_URL_PATH);
+$method = $_SERVER['REQUEST_METHOD'];
 
 $routes = [
-    '/' => ['controller' => 'HomeController', 'method' => 'index'],
-    '/login' => ['controller' => 'AuthController', 'method' => 'login'],
-    '/admin/login' => ['controller' => 'AuthController', 'method' => 'login'],
+    'GET' => [
+        '/' => ['controller' => 'HomeController', 'method' => 'index'],
+        '/login' => ['controller' => 'AuthController', 'method' => 'login'],
+        '/admin/login' => ['controller' => 'AuthController', 'method' => 'login'],
+        '/admin/dashboard' => ['controller' => 'AuthController', 'method' => 'dashboard'],
+        '/logout' => ['controller' => 'AuthController', 'method' => 'logout'],
+    ],
+    'POST' => [
+        '/login' => ['controller' => 'AuthController', 'method' => 'authenticate'],
+        '/admin/login' => ['controller' => 'AuthController', 'method' => 'authenticate'],
+    ]
 ];
 
-if (isset($routes[$path])) {
-    $controllerName = $routes[$path]['controller'];
-    $methodName = $routes[$path]['method'];
+if (isset($routes[$method][$path])) {
+    $route = $routes[$method][$path];
+    $controllerName = $route['controller'];
+    $methodName = $route['method'];
     
     require_once __DIR__ . '/../app/Controllers/' . $controllerName . '.php';
     $controller = new $controllerName();
