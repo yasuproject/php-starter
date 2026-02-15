@@ -1,272 +1,108 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <title>Admin Login</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ionic@latest/css/ionic.bundle.css">
-    <style>
-        :root {
-            --ion-color-primary: #3880ff;
-            --ion-color-primary-rgb: 56, 128, 255;
-            --ion-color-primary-contrast: #ffffff;
-            --ion-color-primary-contrast-rgb: 255, 255, 255;
-            --ion-color-primary-shade: #3171e0;
-            --ion-color-primary-tint: #4c8dff;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0;
-            padding: 20px;
-        }
-
-        .login-container {
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .login-card {
-            background: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            padding: 40px 30px;
-        }
-
-        .login-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .login-header ion-icon {
-            font-size: 60px;
-            color: var(--ion-color-primary);
-            margin-bottom: 10px;
-        }
-
-        .login-header h1 {
-            font-size: 24px;
-            font-weight: 600;
-            color: #333;
-            margin: 0;
-        }
-
-        .login-header p {
-            color: #666;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            color: #333;
-            margin-bottom: 8px;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            box-sizing: border-box;
-            -webkit-appearance: none;
-            appearance: none;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--ion-color-primary);
-            box-shadow: 0 0 0 3px rgba(56, 128, 255, 0.1);
-        }
-
-        .form-input::placeholder {
-            color: #999;
-        }
-
-        .remember-forgot {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            font-size: 14px;
-        }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-            color: #666;
-        }
-
-        .remember-me input {
-            margin-right: 8px;
-            width: 18px;
-            height: 18px;
-            accent-color: var(--ion-color-primary);
-        }
-
-        .forgot-password {
-            color: var(--ion-color-primary);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .forgot-password:hover {
-            text-decoration: underline;
-        }
-
-        .login-button {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .login-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .login-button:active {
-            transform: translateY(0);
-        }
-
-        .divider {
-            display: flex;
-            align-items: center;
-            margin: 25px 0;
-            color: #999;
-            font-size: 14px;
-        }
-
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #e0e0e0;
-        }
-
-        .divider span {
-            padding: 0 15px;
-        }
-
-        .social-login {
-            display: flex;
-            gap: 15px;
-        }
-
-        .social-button {
-            flex: 1;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            background: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .social-button:hover {
-            border-color: var(--ion-color-primary);
-            background: rgba(56, 128, 255, 0.05);
-        }
-
-        .social-button ion-icon {
-            font-size: 24px;
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 15px;
-            }
-
-            .login-card {
-                padding: 30px 20px;
-            }
-
-            .login-header h1 {
-                font-size: 22px;
-            }
-
-            .remember-forgot {
-                flex-direction: column;
-                gap: 10px;
-                align-items: flex-start;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
+        <ion-icon class="sun-icon" name="sunny-outline"></ion-icon>
+        <ion-icon class="moon-icon" name="moon-outline"></ion-icon>
+    </button>
+
     <div class="login-container">
         <div class="login-card">
             <div class="login-header">
-                <ion-icon name="person-circle-outline"></ion-icon>
-                <h1>Admin Login</h1>
-                <p>Enter your credentials to access</p>
+                <div class="avatar-wrapper">
+                    <div class="avatar-ring"></div>
+                    <ion-icon class="avatar-icon" name="person-circle-outline"></ion-icon>
+                </div>
+                <h1>Welcome Back</h1>
+                <p>Sign in to continue</p>
             </div>
 
             <form action="/admin/login" method="POST">
                 <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        name="email" 
-                        class="form-input" 
-                        placeholder="admin@example.com" 
-                        required
-                    >
+                    <div class="input-wrapper">
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            class="form-input" 
+                            placeholder="Email address" 
+                            required
+                            autocomplete="email"
+                        >
+                        <ion-icon class="input-icon" name="mail-outline"></ion-icon>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Password</label>
-                    <input 
-                        type="password" 
-                        id="password" 
-                        name="password" 
-                        class="form-input" 
-                        placeholder="Enter your password" 
-                        required
-                    >
+                    <div class="input-wrapper">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            class="form-input" 
+                            placeholder="Password" 
+                            required
+                            autocomplete="current-password"
+                        >
+                        <ion-icon class="input-icon" name="lock-closed-outline"></ion-icon>
+                    </div>
                 </div>
 
-                <div class="remember-forgot">
-                    <label class="remember-me">
+                <div class="options-row">
+                    <label class="toggle-switch">
                         <input type="checkbox" name="remember">
-                        Remember me
+                        <span class="toggle-track"></span>
+                        <span>Remember me</span>
                     </label>
-                    <a href="/admin/forgot-password" class="forgot-password">Forgot Password?</a>
+                    <a href="/admin/forgot-password" class="forgot-link">Forgot password?</a>
                 </div>
 
-                <button type="submit" class="login-button">Sign In</button>
+                <button type="submit" class="login-btn">Sign In</button>
+
+                <button type="button" class="biometric-btn" onclick="useBiometric()">
+                    <ion-icon name="finger-print-outline"></ion-icon>
+                    Use Biometric
+                </button>
             </form>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/ionic@latest/js/ionic.bundle.js"></script>
+    <script>
+        const html = document.documentElement;
+        
+        if (localStorage.getItem('theme') === 'dark' || 
+            (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.setAttribute('data-theme', 'dark');
+        }
+
+        function toggleDarkMode() {
+            const current = html.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+        }
+
+        function useBiometric() {
+            if (window.FaceID || window.Fingerprint) {
+                navigator.biometric.authenticate({ 
+                    reason: 'Authenticate to access admin panel' 
+                }).then(() => {
+                    document.querySelector('form').submit();
+                });
+            } else {
+                alert('Biometric authentication not available');
+            }
+        }
+    </script>
 </body>
 </html>
