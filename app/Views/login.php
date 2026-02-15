@@ -9,42 +9,87 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ionic@latest/css/ionic.bundle.css">
     <link rel="stylesheet" href="/css/style.css">
     <style>
-        .alert {
-            padding: 12px 16px;
-            border-radius: 12px;
-            margin-bottom: 20px;
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 320px;
+            width: 90%;
+            text-align: center;
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-overlay.active .modal {
+            transform: scale(1) translateY(0);
+        }
+        
+        .modal-icon {
+            font-size: 60px;
+            color: #ef4444;
+            margin-bottom: 15px;
+        }
+        
+        .modal-icon.success {
+            color: #10b981;
+        }
+        
+        .modal h3 {
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+        
+        .modal p {
+            color: var(--text-secondary);
             font-size: 14px;
-            font-weight: 500;
-            animation: slideIn 0.3s ease-out;
+            margin-bottom: 20px;
         }
         
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .modal-btn {
+            background: var(--ion-color-primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
         }
         
-        .alert-error {
-            background: #fee2e2;
-            color: #dc2626;
-            border: 1px solid #fecaca;
+        .modal-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
         }
         
-        .alert-success {
-            background: #d1fae5;
-            color: #059669;
-            border: 1px solid #a7f3d0;
+        .shake {
+            animation: shake 0.5s ease-in-out;
         }
         
-        [data-theme="dark"] .alert-error {
-            background: #7f1d1d;
-            color: #fca5a5;
-            border-color: #991b1b;
-        }
-        
-        [data-theme="dark"] .alert-success {
-            background: #064e3b;
-            color: #6ee7b7;
-            border-color: #065f46;
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
         }
     </style>
 </head>
@@ -54,43 +99,39 @@
         <ion-icon class="moon-icon" name="moon-outline"></ion-icon>
     </button>
 
+    <!-- Error Modal -->
+    <div class="modal-overlay" id="errorModal">
+        <div class="modal">
+            <ion-icon class="modal-icon" name="close-circle-outline"></ion-icon>
+            <h3>Login Failed</h3>
+            <p id="errorMessage">Invalid username or password</p>
+            <button class="modal-btn" onclick="closeModal()">Try Again</button>
+        </div>
+    </div>
+
     <div class="login-container">
-        <div class="login-card">
+        <div class="login-card" id="loginCard">
             <div class="login-header">
                 <div class="avatar-wrapper">
                     <div class="avatar-ring"></div>
-                    <ion-icon class="avatar-icon" name="person-circle-outline"></ion-icon>
+                    <ion-icon class="avatar-icon" name="shield-checkmark-outline"></ion-icon>
                 </div>
-                <h1>Welcome Back</h1>
-                <p>Sign in to continue</p>
+                <h1>Admin Login</h1>
+                <p>Enter your credentials</p>
             </div>
 
-            <?php if (isset($error) && $error): ?>
-                <div class="alert alert-error">
-                    <ion-icon name="alert-circle-outline"></ion-icon>
-                    <?= htmlspecialchars($error) ?>
-                </div>
-            <?php endif; ?>
-
-            <?php if (isset($success) && $success): ?>
-                <div class="alert alert-success">
-                    <ion-icon name="checkmark-circle-outline"></ion-icon>
-                    <?= htmlspecialchars($success) ?>
-                </div>
-            <?php endif; ?>
-
-            <form action="/login" method="POST">
+            <form id="loginForm" action="/login" method="POST">
                 <div class="form-group">
                     <div class="input-wrapper">
                         <input 
                             type="text" 
-                            id="email" 
-                            name="email" 
+                            id="username" 
+                            name="username" 
                             class="form-input" 
-                            placeholder="Email or username" 
+                            placeholder="Username" 
                             required
-                            autocomplete="email"
-                            value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>"
+                            autocomplete="username"
+                            autofocus
                         >
                         <ion-icon class="input-icon" name="person-outline"></ion-icon>
                     </div>
@@ -117,14 +158,10 @@
                         <span class="toggle-track"></span>
                         <span>Remember me</span>
                     </label>
-                    <a href="/admin/forgot-password" class="forgot-link">Forgot password?</a>
                 </div>
 
-                <button type="submit" class="login-btn">Sign In</button>
-
-                <button type="button" class="biometric-btn" onclick="useBiometric()">
-                    <ion-icon name="finger-print-outline"></ion-icon>
-                    Use Biometric
+                <button type="submit" class="login-btn" id="loginBtn">
+                    <span>Sign In</span>
                 </button>
             </form>
         </div>
@@ -132,8 +169,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/ionic@latest/js/ionic.bundle.js"></script>
     <script>
+        // Dark mode
         const html = document.documentElement;
-        
         if (localStorage.getItem('theme') === 'dark' || 
             (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             html.setAttribute('data-theme', 'dark');
@@ -146,17 +183,47 @@
             localStorage.setItem('theme', next);
         }
 
-        function useBiometric() {
-            if (window.FaceID || window.Fingerprint) {
-                navigator.biometric.authenticate({ 
-                    reason: 'Authenticate to access admin panel' 
-                }).then(() => {
-                    document.querySelector('form').submit();
-                });
-            } else {
-                alert('Biometric authentication not available');
-            }
+        // Modal functions
+        function showModal(message) {
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('errorModal').classList.add('active');
+            document.getElementById('loginCard').classList.add('shake');
+            setTimeout(() => {
+                document.getElementById('loginCard').classList.remove('shake');
+            }, 500);
         }
+
+        function closeModal() {
+            document.getElementById('errorModal').classList.remove('active');
+            document.getElementById('password').value = '';
+            document.getElementById('password').focus();
+        }
+
+        // Check for PHP error messages
+        <?php if (isset($error) && $error): ?>
+        window.addEventListener('load', () => {
+            showModal('<?= addslashes($error) ?>');
+        });
+        <?php endif; ?>
+
+        // Form validation
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            
+            if (!username || !password) {
+                e.preventDefault();
+                showModal('Please enter both username and password');
+                return false;
+            }
+        });
+
+        // Close modal on overlay click
+        document.getElementById('errorModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
     </script>
 </body>
 </html>
