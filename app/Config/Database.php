@@ -5,13 +5,26 @@ class Database {
     private $pdo;
 
     private function __construct() {
-        $dotenv = parse_ini_file(__DIR__ . '/../../.env');
+        // Try to get from environment variables first (Wasmer), fallback to .env file (local)
+        $host = getenv('DB_HOST') ?: ($_ENV['DB_HOST'] ?? null);
+        $port = getenv('DB_PORT') ?: ($_ENV['DB_PORT'] ?? null);
+        $dbname = getenv('DB_NAME') ?: ($_ENV['DB_NAME'] ?? null);
+        $username = getenv('DB_USERNAME') ?: ($_ENV['DB_USERNAME'] ?? null);
+        $password = getenv('DB_PASSWORD') ?: ($_ENV['DB_PASSWORD'] ?? null);
         
-        $host = $dotenv['DB_HOST'];
-        $port = $dotenv['DB_PORT'];
-        $dbname = $dotenv['DB_NAME'];
-        $username = $dotenv['DB_USERNAME'];
-        $password = $dotenv['DB_PASSWORD'];
+        // Fallback to .env file for local development
+        if (!$host && file_exists(__DIR__ . '/../../.env')) {
+            $dotenv = parse_ini_file(__DIR__ . '/../../.env');
+            $host = $dotenv['DB_HOST'] ?? null;
+            $port = $dotenv['DB_PORT'] ?? null;
+            $dbname = $dotenv['DB_NAME'] ?? null;
+            $username = $dotenv['DB_USERNAME'] ?? null;
+            $password = $dotenv['DB_PASSWORD'] ?? null;
+        }
+
+        if (!$host || !$dbname || !$username) {
+            throw new Exception("Database configuration missing");
+        }
 
         try {
             $this->pdo = new PDO(
