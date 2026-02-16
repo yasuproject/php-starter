@@ -19,14 +19,17 @@ class Session {
                 self::regenerateSession();
             }
             
-            // Validate session
-            if (isset($_SESSION['ip_address']) && $_SESSION['ip_address'] !== $_SERVER['REMOTE_ADDR']) {
+            // Validate session (skip if behind proxy/load balancer)
+            $remoteAddr = $_SERVER['REMOTE_ADDR'] ?? $_SERVER['HTTP_X_FORWARDED_FOR'] ?? 'unknown';
+            $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
+            
+            if (isset($_SESSION['ip_address']) && $_SESSION['ip_address'] !== $remoteAddr && $remoteAddr !== 'unknown') {
                 self::destroy();
                 header('Location: /login');
                 exit;
             }
             
-            if (isset($_SESSION['user_agent']) && $_SESSION['user_agent'] !== $_SERVER['HTTP_USER_AGENT']) {
+            if (isset($_SESSION['user_agent']) && $_SESSION['user_agent'] !== $userAgent && $userAgent !== 'unknown') {
                 self::destroy();
                 header('Location: /login');
                 exit;
@@ -37,8 +40,8 @@ class Session {
     private static function regenerateSession() {
         session_regenerate_id(true);
         $_SESSION['last_regeneration'] = time();
-        $_SESSION['ip_address'] = $_SERVER['REMOTE_ADDR'];
-        $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
+        $_SESSION['ip_address'] = $_SERVER['REMOTE_ADDR'] ?? $_SERVER['HTTP_X_FORWARDED_FOR'] ?? 'unknown';
+        $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
     }
 
     public static function set($key, $value) {
