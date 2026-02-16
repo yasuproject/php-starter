@@ -129,6 +129,9 @@ class AuthController {
         
         $username = Session::get('admin_username');
         
+        // Debug logging
+        error_log('Dashboard accessed by: ' . $username);
+        
         // Add security headers
         header('X-Frame-Options: DENY');
         header('X-Content-Type-Options: nosniff');
