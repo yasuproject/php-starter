@@ -2,6 +2,7 @@
 $title = 'Dashboard - Admin Panel';
 $pageTitle = 'Dashboard';
 $activePage = 'dashboard';
+$username = $username ?? 'Admin';
 
 ob_start();
 ?>
