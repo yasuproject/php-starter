@@ -1,3 +1,9 @@
+<?php
+// Ensure session is started for flash messages
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
@@ -5,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
-    <title><?= $title ?? 'Admin Panel' ?></title>
+    <title><?= htmlspecialchars($title ?? 'Admin Panel') ?></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ionic@latest/css/ionic.bundle.css">
     <link rel="stylesheet" href="/css/style.css">
 </head>
