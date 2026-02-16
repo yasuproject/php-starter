@@ -125,31 +125,37 @@ class AuthController {
     }
 
     public function dashboard() {
-        Session::requireAuth();
-        
-        $username = Session::get('admin_username');
-        
-        // Debug logging
-        error_log('Dashboard accessed by: ' . $username);
-        
-        // Add security headers
-        header('X-Frame-Options: DENY');
-        header('X-Content-Type-Options: nosniff');
-        header('X-XSS-Protection: 1; mode=block');
-        header('Referrer-Policy: strict-origin-when-cross-origin');
-        header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;");
-        
-        // Get dashboard statistics (placeholder values)
-        $totalUsers = 150;
-        $newUsersToday = 5;
-        $activeSessions = 23;
-        $adminUsers = 3;
-        $recentActivity = [
-            ['action' => 'User created', 'user' => 'admin', 'time' => '2 minutes ago'],
-            ['action' => 'Permission updated', 'user' => 'admin', 'time' => '1 hour ago'],
-            ['action' => 'User login', 'user' => 'john_doe', 'time' => '3 hours ago'],
-        ];
-        
-        require __DIR__ . '/../Views/dashboard.php';
+        try {
+            Session::requireAuth();
+            
+            $username = Session::get('admin_username');
+            
+            // Debug logging
+            error_log('Dashboard accessed by: ' . $username);
+            
+            // Add security headers
+            header('X-Frame-Options: DENY');
+            header('X-Content-Type-Options: nosniff');
+            header('X-XSS-Protection: 1; mode=block');
+            header('Referrer-Policy: strict-origin-when-cross-origin');
+            header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;");
+            
+            // Get dashboard statistics (placeholder values)
+            $totalUsers = 150;
+            $newUsersToday = 5;
+            $activeSessions = 23;
+            $adminUsers = 3;
+            $recentActivity = [
+                ['action' => 'User created', 'user' => 'admin', 'time' => '2 minutes ago'],
+                ['action' => 'Permission updated', 'user' => 'admin', 'time' => '1 hour ago'],
+                ['action' => 'User login', 'user' => 'john_doe', 'time' => '3 hours ago'],
+            ];
+            
+            require __DIR__ . '/../Views/dashboard.php';
+        } catch (Exception $e) {
+            error_log('Dashboard error: ' . $e->getMessage());
+            http_response_code(500);
+            echo "Error: " . $e->getMessage();
+        }
     }
 }
