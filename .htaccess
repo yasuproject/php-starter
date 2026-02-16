@@ -3,9 +3,10 @@
     RewriteEngine On
     RewriteBase /
     
-    # Allow direct access to existing files in public folder
-    RewriteCond %{DOCUMENT_ROOT}/public/$1 -f
-    RewriteRule ^(css|js|images|assets)/(.*)$ public/$1/$2 [L]
+    # Serve static files directly from public folder
+    RewriteRule ^css/(.*)$ public/css/$1 [L]
+    RewriteRule ^js/(.*)$ public/js/$1 [L]
+    RewriteRule ^images/(.*)$ public/images/$1 [L]
     
     # Deny access to sensitive directories
     RewriteRule ^(app|config|database|vendor|logs|cache|sessions)/.*$ - [F,L,NC]

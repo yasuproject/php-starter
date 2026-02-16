@@ -10,6 +10,12 @@ Options -Indexes
     RewriteRule \.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ - [L]
 </IfModule>
 
+# Force CSS MIME type
+<IfModule mod_mime.c>
+    AddType text/css .css
+    AddType application/javascript .js
+</IfModule>
+
 # Allow access to static files (Apache 2.4 syntax)
 <FilesMatch "\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$">
     Require all granted
