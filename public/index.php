@@ -30,11 +30,15 @@ $routes = [
         '/login' => ['controller' => 'AuthController', 'method' => 'login'],
         '/admin/login' => ['controller' => 'AuthController', 'method' => 'login'],
         '/admin/dashboard' => ['controller' => 'AuthController', 'method' => 'dashboard'],
+        '/admin/users/create' => ['controller' => 'UserController', 'method' => 'create'],
+        '/admin/permissions' => ['controller' => 'PermissionController', 'method' => 'index'],
         '/logout' => ['controller' => 'AuthController', 'method' => 'logout'],
     ],
     'POST' => [
         '/login' => ['controller' => 'AuthController', 'method' => 'authenticate'],
         '/admin/login' => ['controller' => 'AuthController', 'method' => 'authenticate'],
+        '/admin/users/store' => ['controller' => 'UserController', 'method' => 'store'],
+        '/admin/permissions/save' => ['controller' => 'PermissionController', 'method' => 'save'],
     ]
 ];
 

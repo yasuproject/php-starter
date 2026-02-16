@@ -136,17 +136,17 @@ class AuthController {
         header('Referrer-Policy: strict-origin-when-cross-origin');
         header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;");
         
-        echo "<!DOCTYPE html>\n";
-        echo "<html>\n";
-        echo "<head>\n";
-        echo "<title>Admin Dashboard</title>\n";
-        echo "<style>body{font-family:system-ui;margin:40px;}</style>\n";
-        echo "</head>\n";
-        echo "<body>\n";
-        echo "<h1>Welcome to Dashboard</h1>\n";
-        echo "<p>Hello, " . htmlspecialchars($username, ENT_QUOTES, 'UTF-8') . "!</p>\n";
-        echo '<a href="/logout">Logout</a>\n';
-        echo "</body>\n";
-        echo "</html>\n";
+        // Get dashboard statistics (placeholder values)
+        $totalUsers = 150;
+        $newUsersToday = 5;
+        $activeSessions = 23;
+        $adminUsers = 3;
+        $recentActivity = [
+            ['action' => 'User created', 'user' => 'admin', 'time' => '2 minutes ago'],
+            ['action' => 'Permission updated', 'user' => 'admin', 'time' => '1 hour ago'],
+            ['action' => 'User login', 'user' => 'john_doe', 'time' => '3 hours ago'],
+        ];
+        
+        require __DIR__ . '/../Views/dashboard.php';
     }
 }
