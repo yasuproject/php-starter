@@ -3,11 +3,16 @@
     RewriteEngine On
     RewriteBase /
     
+    # Allow access to public folder static files
+    RewriteRule ^css/(.*)$ public/css/$1 [L]
+    RewriteRule ^js/(.*)$ public/js/$1 [L]
+    RewriteRule ^images/(.*)$ public/images/$1 [L]
+    
     # Deny access to sensitive directories
     RewriteRule ^(app|config|database|vendor|logs|cache|sessions)/.*$ - [F,L,NC]
     
     # Deny access to sensitive files
-    RewriteRule \.(env|log|sql|git|svn|htaccess|htpasswd)$ - [F,L,NC]
+    RewriteRule \.(env|log|sql|git|svn|htpasswd)$ - [F,L,NC]
     
     # Redirect all requests to public/index.php
     RewriteCond %{REQUEST_FILENAME} !-f
