@@ -1,6 +1,20 @@
 # Protect this directory
 Options -Indexes
 
+# Enable rewrite engine
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Allow direct access to css, js, images, and other static files
+    RewriteRule ^(css|js|images|assets)/.*$ - [L]
+</IfModule>
+
+# Allow access to static files
+<FilesMatch "\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>
+
 # Deny access to sensitive files
 <FilesMatch "\.(log|sql|git|env)$">
     Order allow,deny
