@@ -1,24 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Permissions - Admin Panel</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ionic@latest/css/ionic.bundle.css">
     <style>
         :root {
             --ion-color-primary: #6366f1;
-            --bg: #f3f4f6;
-            --card-bg: #ffffff;
-            --text-primary: #1f2937;
-            --text-secondary: #6b7280;
-            --sidebar-bg: #f9fafb;
-            --sidebar-active: #eff6ff;
-            --sidebar-active-border: #6366f1;
-            --border: #e5e7eb;
-        }
-        
-        [data-theme="dark"] {
             --bg: #0f172a;
             --card-bg: #1e293b;
             --text-primary: #f1f5f9;
@@ -27,6 +15,17 @@
             --sidebar-active: #1e3a5f;
             --sidebar-active-border: #818cf8;
             --border: #334155;
+        }
+        
+        [data-theme="light"] {
+            --bg: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --sidebar-bg: #f9fafb;
+            --sidebar-active: #eff6ff;
+            --sidebar-active-border: #6366f1;
+            --border: #e5e7eb;
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -40,6 +39,17 @@
         
         .app-container { display: flex; min-height: 100vh; }
         
+        /* Mobile Overlay */
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 99;
+        }
+        
+        .mobile-overlay.active { display: block; }
+        
         /* Sidebar */
         .sidebar {
             width: 280px;
@@ -52,30 +62,33 @@
             top: 0;
             bottom: 0;
             z-index: 100;
+            transition: transform 0.3s ease;
         }
         
+        .sidebar.closed { transform: translateX(-100%); }
+        
         .sidebar-header {
-            padding: 24px 20px;
+            padding: 20px;
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             gap: 12px;
         }
         
-        .sidebar-header ion-icon {
-            font-size: 28px;
-            color: var(--ion-color-primary);
+        .sidebar-logo {
+            width: 32px;
+            height: 32px;
+            background: var(--ion-color-primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
         }
         
-        .sidebar-header h2 {
-            font-size: 20px;
-            font-weight: 600;
-        }
+        .sidebar-header h2 { font-size: 18px; font-weight: 600; }
         
-        .nav-menu {
-            flex: 1;
-            padding: 16px 12px;
-        }
+        .nav-menu { flex: 1; padding: 16px 12px; overflow-y: auto; }
         
         .nav-item {
             display: flex;
@@ -87,6 +100,7 @@
             color: var(--text-secondary);
             text-decoration: none;
             transition: all 0.2s;
+            font-size: 15px;
         }
         
         .nav-item:hover {
@@ -100,7 +114,7 @@
             border-left: 3px solid var(--sidebar-active-border);
         }
         
-        .nav-item ion-icon { font-size: 22px; }
+        .nav-icon { font-size: 20px; width: 24px; text-align: center; }
         
         .sidebar-footer {
             padding: 16px;
@@ -112,7 +126,7 @@
             align-items: center;
             gap: 12px;
             margin-bottom: 12px;
-            padding: 8px;
+            padding: 10px;
             border-radius: 10px;
             background: rgba(99, 102, 241, 0.1);
         }
@@ -126,7 +140,8 @@
             align-items: center;
             justify-content: center;
             color: white;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 16px;
         }
         
         .user-name { font-weight: 600; font-size: 14px; }
@@ -156,12 +171,15 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            transition: margin-left 0.3s;
         }
+        
+        .main-content.full { margin-left: 0; }
         
         .header {
             background: var(--card-bg);
             border-bottom: 1px solid var(--border);
-            padding: 16px 24px;
+            padding: 16px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -170,16 +188,41 @@
             z-index: 50;
         }
         
-        .page-title { font-size: 24px; font-weight: 700; }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
         
-        .dark-mode-toggle {
+        .hamburger {
+            display: none;
             background: none;
             border: none;
-            color: var(--text-secondary);
+            color: var(--text-primary);
+            font-size: 24px;
             cursor: pointer;
-            padding: 8px;
-            border-radius: 8px;
-            font-size: 22px;
+            padding: 4px;
+        }
+        
+        .page-title { font-size: 22px; font-weight: 700; }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .icon-btn {
+            background: rgba(99, 102, 241, 0.1);
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .content { flex: 1; padding: 24px; }
@@ -190,7 +233,7 @@
             border-radius: 16px;
             padding: 24px;
             border: 1px solid var(--border);
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
         
         .card-header {
@@ -198,20 +241,27 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
         }
         
         .card-title { font-size: 18px; font-weight: 600; }
         
         /* Table */
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
         .permissions-table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 600px;
+            min-width: 500px;
         }
         
         .permissions-table th,
         .permissions-table td {
-            padding: 16px;
+            padding: 14px 12px;
             text-align: left;
             border-bottom: 1px solid var(--border);
         }
@@ -219,17 +269,18 @@
         .permissions-table th {
             font-weight: 600;
             color: var(--text-secondary);
-            font-size: 13px;
+            font-size: 12px;
             text-transform: uppercase;
             background: rgba(99, 102, 241, 0.05);
         }
         
         .permissions-table td {
             color: var(--text-primary);
+            font-size: 14px;
         }
         
         .permissions-table tr:hover {
-            background: rgba(99, 102, 241, 0.05);
+            background: rgba(99, 102, 241, 0.03);
         }
         
         .permission-checkbox {
@@ -239,21 +290,18 @@
             accent-color: var(--ion-color-primary);
         }
         
-        .table-container {
-            overflow-x: auto;
-        }
-        
         .btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 14px 24px;
-            border-radius: 12px;
-            font-size: 15px;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             border: none;
             text-decoration: none;
+            transition: all 0.2s;
         }
         
         .btn-primary {
@@ -261,34 +309,62 @@
             color: white;
         }
         
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3); }
+        
+        /* Legend */
+        .legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 13px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-secondary);
+        }
+        
         /* Mobile */
         @media (max-width: 768px) {
-            .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
+            .sidebar { transform: translateX(-100%); }
             .sidebar.open { transform: translateX(0); }
             .main-content { margin-left: 0; }
+            .hamburger { display: flex; }
+            .card-header { flex-direction: column; align-items: flex-start; }
+            .permissions-table th, .permissions-table td { padding: 10px 8px; font-size: 13px; }
+        }
+        
+        @media (min-width: 769px) {
+            .sidebar.closed { transform: translateX(-100%); }
+            .main-content.full { margin-left: 0; }
         }
     </style>
 </head>
 <body>
     <div class="app-container">
-        <!-- Sidebar -->
+        <!-- Mobile Overlay -->
+        <div class="mobile-overlay" id="mobileOverlay" onclick="closeSidebar()"></div>
+        
+        <!-- Sidebar Navigation Drawer -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <ion-icon name="shield-checkmark"></ion-icon>
+                <div class="sidebar-logo">🛡️</div>
                 <h2>Admin Panel</h2>
             </div>
             
             <nav class="nav-menu">
                 <a href="/admin/dashboard" class="nav-item">
-                    <ion-icon name="grid-outline"></ion-icon>
+                    <span class="nav-icon">📊</span>
                     <span>Dashboard</span>
                 </a>
                 <a href="/admin/users/create" class="nav-item">
-                    <ion-icon name="person-add-outline"></ion-icon>
+                    <span class="nav-icon">➕</span>
                     <span>Create User</span>
                 </a>
                 <a href="/admin/permissions" class="nav-item active">
-                    <ion-icon name="key-outline"></ion-icon>
+                    <span class="nav-icon">🔐</span>
                     <span>Permissions</span>
                 </a>
             </nav>
@@ -304,20 +380,24 @@
                     </div>
                 </div>
                 <a href="/logout" class="logout-btn">
-                    <ion-icon name="log-out-outline"></ion-icon>
+                    <span>🚪</span>
                     <span>Logout</span>
                 </a>
             </div>
         </aside>
         
         <!-- Main Content -->
-        <main class="main-content">
+        <main class="main-content" id="mainContent">
             <header class="header">
-                <h1 class="page-title">Permissions Control</h1>
-                <button class="dark-mode-toggle" onclick="toggleDarkMode()">
-                    <ion-icon class="sun-icon" name="sunny-outline"></ion-icon>
-                    <ion-icon class="moon-icon" name="moon-outline" style="display:none"></ion-icon>
-                </button>
+                <div class="header-left">
+                    <button class="hamburger" id="hamburger" onclick="toggleSidebar()">☰</button>
+                    <h1 class="page-title">Permissions</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="icon-btn" onclick="toggleTheme()" title="Toggle Theme">
+                        <span id="themeIcon">☀️</span>
+                    </button>
+                </div>
             </header>
             
             <div class="content">
@@ -325,8 +405,8 @@
                     <div class="card-header">
                         <h2 class="card-title">Role Permissions</h2>
                         <button type="button" class="btn btn-primary" onclick="document.getElementById('permForm').submit()">
-                            <ion-icon name="save-outline"></ion-icon>
-                            Save Changes
+                            <span>💾</span>
+                            Save
                         </button>
                     </div>
                     
@@ -379,33 +459,75 @@
                 </div>
                 
                 <div class="card">
-                    <h3 style="font-size: 16px; margin-bottom: 16px;">Legend</h3>
-                    <div style="display: flex; gap: 24px; flex-wrap: wrap;">
-                        <span style="color: var(--text-secondary)">☑️ Granted</span>
-                        <span style="color: var(--text-secondary)">⬜ Not Granted</span>
-                        <span style="color: var(--text-secondary)">☑️(gray) Always for Admin</span>
+                    <div class="legend">
+                        <div class="legend-item">
+                            <span>☑️</span>
+                            <span>Granted</span>
+                        </div>
+                        <div class="legend-item">
+                            <span>⬜</span>
+                            <span>Not Granted</span>
+                        </div>
+                        <div class="legend-item">
+                            <span>🔒</span>
+                            <span>Always for Admin</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </main>
     </div>
     
-    <script src="https://cdn.jsdelivr.net/npm/ionic@latest/js/ionic.bundle.js"></script>
     <script>
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+        const mobileOverlay = document.getElementById('mobileOverlay');
         const html = document.documentElement;
-        if (localStorage.getItem('theme') === 'dark') {
+        
+        const savedTheme = localStorage.getItem('theme');
+        const themeIcon = document.getElementById('themeIcon');
+        
+        if (savedTheme === 'light') {
+            html.setAttribute('data-theme', 'light');
+            themeIcon.textContent = '🌙';
+        } else {
             html.setAttribute('data-theme', 'dark');
-            document.querySelector('.sun-icon').style.display = 'none';
-            document.querySelector('.moon-icon').style.display = 'block';
+            themeIcon.textContent = '☀️';
         }
         
-        function toggleDarkMode() {
-            const isDark = html.getAttribute('data-theme') === 'dark';
-            html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-            localStorage.setItem('theme', isDark ? 'light' : 'dark');
-            document.querySelector('.sun-icon').style.display = isDark ? 'block' : 'none';
-            document.querySelector('.moon-icon').style.display = isDark ? 'none' : 'block';
+        function toggleSidebar() {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.toggle('open');
+                mobileOverlay.classList.toggle('active');
+            } else {
+                sidebar.classList.toggle('closed');
+                mainContent.classList.toggle('full');
+            }
         }
+        
+        function closeSidebar() {
+            sidebar.classList.remove('open');
+            mobileOverlay.classList.remove('active');
+        }
+        
+        function toggleTheme() {
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                html.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+                themeIcon.textContent = '🌙';
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeIcon.textContent = '☀️';
+            }
+        }
+        
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                closeSidebar();
+            }
+        });
     </script>
 </body>
 </html>
