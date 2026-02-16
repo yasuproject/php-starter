@@ -13,7 +13,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <meta name="mobile-web-app-capable" content="yes">
     <title><?= htmlspecialchars($title ?? 'Admin Panel') ?></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ionic@latest/css/ionic.bundle.css">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/public/css/style.css">
 </head>
 <body>
     <div class="app-container">
