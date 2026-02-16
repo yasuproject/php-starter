@@ -188,4 +188,8 @@ ob_start();
 
 <?php
 $content = ob_get_clean();
-require __DIR__ . '/../layouts/main.php';
+$layoutPath = realpath(__DIR__ . '/../layouts/main.php');
+if ($layoutPath === false) {
+    die('Error: Layout file not found at: ' . __DIR__ . '/../layouts/main.php');
+}
+require $layoutPath;
