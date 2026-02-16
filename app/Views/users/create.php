@@ -2,6 +2,7 @@
 $title = 'Create User - Admin Panel';
 $pageTitle = 'Create User';
 $activePage = 'create-user';
+$username = $username ?? 'Admin';
 
 ob_start();
 ?>

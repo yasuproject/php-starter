@@ -2,6 +2,7 @@
 $title = 'Permissions Control - Admin Panel';
 $pageTitle = 'Permissions Control';
 $activePage = 'permissions';
+$username = $username ?? 'Admin';
 
 ob_start();
 ?>
