@@ -69,8 +69,15 @@ if (isset($routes[$method][$path])) {
         exit('500 - Internal Server Error');
     }
     
-    $controller = new $controllerName();
-    $controller->$methodName();
+    try {
+        $controller = new $controllerName();
+        $controller->$methodName();
+    } catch (Throwable $e) {
+        error_log('Controller error: ' . $e->getMessage());
+        error_log('Stack trace: ' . $e->getTraceAsString());
+        http_response_code(500);
+        echo "500 - Internal Server Error. Check logs for details.";
+    }
 } else {
     http_response_code(404);
     echo "404 - Page not found";
