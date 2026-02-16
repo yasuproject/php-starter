@@ -6,19 +6,18 @@ Options -Indexes
     RewriteEngine On
     
     # Allow direct access to css, js, images, and other static files
-    RewriteRule ^(css|js|images|assets)/.*$ - [L]
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule \.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ - [L]
 </IfModule>
 
-# Allow access to static files
+# Allow access to static files (Apache 2.4 syntax)
 <FilesMatch "\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$">
-    Order allow,deny
-    Allow from all
+    Require all granted
 </FilesMatch>
 
-# Deny access to sensitive files
+# Deny access to sensitive files (Apache 2.4 syntax)
 <FilesMatch "\.(log|sql|git|env)$">
-    Order allow,deny
-    Deny from all
+    Require all denied
 </FilesMatch>
 
 # PHP settings

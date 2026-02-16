@@ -3,10 +3,9 @@
     RewriteEngine On
     RewriteBase /
     
-    # Allow access to public folder static files
-    RewriteRule ^css/(.*)$ public/css/$1 [L]
-    RewriteRule ^js/(.*)$ public/js/$1 [L]
-    RewriteRule ^images/(.*)$ public/images/$1 [L]
+    # Allow direct access to existing files in public folder
+    RewriteCond %{DOCUMENT_ROOT}/public/$1 -f
+    RewriteRule ^(css|js|images|assets)/(.*)$ public/$1/$2 [L]
     
     # Deny access to sensitive directories
     RewriteRule ^(app|config|database|vendor|logs|cache|sessions)/.*$ - [F,L,NC]
@@ -23,15 +22,13 @@
 # Deny directory listing
 Options -Indexes
 
-# Protect .env and other sensitive files
+# Protect .env and other sensitive files (Apache 2.4 syntax)
 <FilesMatch "^\.">
-    Order allow,deny
-    Deny from all
+    Require all denied
 </FilesMatch>
 
 <FilesMatch "\.(env|log|sql|ini|conf)$">
-    Order allow,deny
-    Deny from all
+    Require all denied
 </FilesMatch>
 
 # PHP settings for security
