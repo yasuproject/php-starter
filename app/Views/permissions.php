@@ -359,9 +359,9 @@
                     <span class="nav-icon">📊</span>
                     <span>Dashboard</span>
                 </a>
-                <a href="/admin/users/create" class="nav-item">
-                    <span class="nav-icon">➕</span>
-                    <span>Create User</span>
+                <a href="/admin/users" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    <span>Users</span>
                 </a>
                 <a href="/admin/permissions" class="nav-item active">
                     <span class="nav-icon">🔐</span>

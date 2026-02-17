@@ -5,6 +5,43 @@ require_once __DIR__ . '/../Config/Session.php';
 
 class UserController {
     
+    public function index() {
+        Session::requireAuth();
+        Session::init();
+        
+        // Add security headers
+        header('X-Frame-Options: DENY');
+        header('X-Content-Type-Options: nosniff');
+        header('X-XSS-Protection: 1; mode=block');
+        header('Referrer-Policy: strict-origin-when-cross-origin');
+        header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;");
+        
+        $admin_username = Session::get('admin_username');
+        
+        try {
+            $db = Database::getInstance();
+            $pdo = $db->getConnection();
+            
+            // Get all users
+            $stmt = $pdo->query("SELECT * FROM users ORDER BY created_at DESC");
+            $users = $stmt->fetchAll();
+            
+            // Get statistics
+            $total_users = count($users);
+            $active_users = count(array_filter($users, function($u) { return $u['is_active']; }));
+            $inactive_users = $total_users - $active_users;
+            
+        } catch (Exception $e) {
+            error_log('Users list error: ' . $e->getMessage());
+            $users = [];
+            $total_users = 0;
+            $active_users = 0;
+            $inactive_users = 0;
+        }
+        
+        require __DIR__ . '/../Views/users/index.php';
+    }
+    
     public function create() {
         Session::requireAuth();
         
@@ -28,8 +65,9 @@ class UserController {
         $fullname = trim($_POST['fullname'] ?? '');
         $username = trim($_POST['username'] ?? '');
         $email = trim($_POST['email'] ?? '');
+        $phone = trim($_POST['phone'] ?? '');
         $password = $_POST['password'] ?? '';
-        $role = $_POST['role'] ?? '';
+        $role = $_POST['role'] ?? 'cashier';
         $status = $_POST['status'] ?? 'active';
         
         // Validation
@@ -94,16 +132,17 @@ class UserController {
             
             // Insert new user
             $stmt = $pdo->prepare("
-                INSERT INTO users (full_name, username, email, password, role, is_active, created_at) 
-                VALUES (:full_name, :username, :email, :password, :role, :is_active, NOW())
+                INSERT INTO users (full_name, username, email, phone_number, password, role, is_active, created_at) 
+                VALUES (:full_name, :username, :email, :phone_number, :password, :role, :is_active, NOW())
             ");
-            
+
             $isActive = ($status === 'active') ? 1 : 0;
-            
+
             $stmt->execute([
                 ':full_name' => $fullname,
                 ':username' => $username,
                 ':email' => $email,
+                ':phone_number' => $phone ?: null,
                 ':password' => $passwordHash,
                 ':role' => $role,
                 ':is_active' => $isActive

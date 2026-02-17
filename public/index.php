@@ -36,6 +36,7 @@ $routes = [
         '/login' => ['controller' => 'AuthController', 'method' => 'login'],
         '/admin/login' => ['controller' => 'AuthController', 'method' => 'login'],
         '/admin/dashboard' => ['controller' => 'AuthController', 'method' => 'dashboard'],
+        '/admin/users' => ['controller' => 'UserController', 'method' => 'index'],
         '/admin/users/create' => ['controller' => 'UserController', 'method' => 'create'],
         '/admin/permissions' => ['controller' => 'PermissionController', 'method' => 'index'],
         '/logout' => ['controller' => 'AuthController', 'method' => 'logout'],

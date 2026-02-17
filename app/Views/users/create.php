@@ -329,6 +329,10 @@
                     <span class="nav-icon">📊</span>
                     <span>Dashboard</span>
                 </a>
+                <a href="/admin/users" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    <span>Users</span>
+                </a>
                 <a href="/admin/users/create" class="nav-item active">
                     <span class="nav-icon">➕</span>
                     <span>Create User</span>
@@ -389,19 +393,24 @@
                             <label class="form-label" for="email">Email</label>
                             <input type="email" id="email" name="email" class="form-input" placeholder="Enter email" required>
                         </div>
-                        
+
+                        <div class="form-group">
+                            <label class="form-label" for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" class="form-input" placeholder="Enter phone number">
+                        </div>
+
                         <div class="form-group">
                             <label class="form-label" for="password">Password</label>
                             <input type="password" id="password" name="password" class="form-input" placeholder="Enter password (min 8 chars)" required minlength="8">
                         </div>
-                        
+
                         <div class="form-group">
                             <label class="form-label" for="role">Role</label>
                             <select id="role" name="role" class="form-select" required>
-                                <option value="">Select role</option>
-                                <option value="admin">Administrator</option>
-                                <option value="user">User</option>
-                                <option value="guest">Guest</option>
+                                <option value="cashier" selected>Cashier</option>
+                                <option value="manager">Manager</option>
+                                <option value="sales">Sales</option>
+                                <option value="inventory">Inventory</option>
                             </select>
                         </div>
                         
@@ -418,7 +427,7 @@
                                 <span>➕</span>
                                 Create User
                             </button>
-                            <a href="/admin/dashboard" class="btn btn-secondary">Cancel</a>
+                            <a href="/admin/users" class="btn btn-secondary">Cancel</a>
                         </div>
                     </form>
                 </div>
