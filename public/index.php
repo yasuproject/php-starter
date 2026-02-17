@@ -41,6 +41,10 @@ $routes = [
         '/admin/users/edit' => ['controller' => 'UserController', 'method' => 'edit'],
         '/admin/permissions' => ['controller' => 'PermissionController', 'method' => 'index'],
         '/logout' => ['controller' => 'AuthController', 'method' => 'logout'],
+        // API Routes - Users
+        '/api/users' => ['controller' => 'UsersApiController', 'method' => 'index'],
+        '/api/users/me' => ['controller' => 'UsersApiController', 'method' => 'me'],
+        '/api/users/show' => ['controller' => 'UsersApiController', 'method' => 'show'],
     ],
     'POST' => [
         '/login' => ['controller' => 'AuthController', 'method' => 'authenticate'],
@@ -49,6 +53,21 @@ $routes = [
         '/admin/users/update' => ['controller' => 'UserController', 'method' => 'update'],
         '/admin/users/delete' => ['controller' => 'UserController', 'method' => 'delete'],
         '/admin/permissions/save' => ['controller' => 'PermissionController', 'method' => 'save'],
+        // API Routes - Users
+        '/api/users' => ['controller' => 'UsersApiController', 'method' => 'store'],
+        '/api/users/login' => ['controller' => 'UsersApiController', 'method' => 'login'],
+    ],
+    'PUT' => [
+        // API Routes - Users
+        '/api/users' => ['controller' => 'UsersApiController', 'method' => 'update'],
+    ],
+    'PATCH' => [
+        // API Routes - Users
+        '/api/users' => ['controller' => 'UsersApiController', 'method' => 'update'],
+    ],
+    'DELETE' => [
+        // API Routes - Users
+        '/api/users' => ['controller' => 'UsersApiController', 'method' => 'delete'],
     ]
 ];
 
