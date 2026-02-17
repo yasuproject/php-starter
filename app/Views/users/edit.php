@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Create User - Admin Panel</title>
+    <title>Edit User - Admin Panel</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -19,6 +19,8 @@
             --input-bg: #0f172a;
             --success: #10b981;
             --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
         }
 
         [data-theme="light"] {
@@ -312,175 +314,6 @@
             .sidebar.closed { transform: translateX(-100%); }
             .main-content.full { margin-left: 0; }
         }
-
-        /* Toast Notifications */
-        .toast-container {
-            position: fixed;
-            top: 24px;
-            right: 24px;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .toast {
-            padding: 16px 20px;
-            border-radius: 12px;
-            color: white;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            min-width: 300px;
-            max-width: 400px;
-            transform: translateX(100%);
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .toast.show {
-            transform: translateX(0);
-            opacity: 1;
-        }
-
-        .toast.success {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        }
-
-        .toast.error {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-        }
-
-        .toast-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .toast-content {
-            flex: 1;
-        }
-
-        .toast-title {
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-
-        .toast-message {
-            font-size: 13px;
-            opacity: 0.9;
-        }
-
-        .toast-close {
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-            font-size: 18px;
-            opacity: 0.7;
-            transition: opacity 0.2s;
-        }
-
-        .toast-close:hover {
-            opacity: 1;
-        }
-
-        /* Modern Alert Dialog */
-        .alert-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(4px);
-            z-index: 1001;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .alert-overlay.active {
-            display: flex;
-        }
-
-        .alert-dialog {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 32px;
-            max-width: 400px;
-            width: 100%;
-            text-align: center;
-            border: 1px solid var(--border);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            transform: scale(0.9);
-            opacity: 0;
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-
-        .alert-overlay.active .alert-dialog {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        .alert-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-        }
-
-        .alert-icon.error {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-        }
-
-        .alert-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .alert-message {
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-            font-size: 15px;
-            line-height: 1.5;
-        }
-
-        .alert-actions {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-        }
-
-        .alert-btn {
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            transition: all 0.2s;
-        }
-
-        .alert-btn-primary {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            color: white;
-        }
-
-        .alert-btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
-        }
     </style>
 </head>
 <body>
@@ -502,7 +335,7 @@
                     <span class="nav-icon"><i class="fas fa-users"></i></span>
                     <span>Users</span>
                 </a>
-                <a href="/admin/users/create" class="nav-item active">
+                <a href="/admin/users/create" class="nav-item">
                     <span class="nav-icon"><i class="fas fa-user-plus"></i></span>
                     <span>Create User</span>
                 </a>
@@ -515,10 +348,10 @@
             <div class="sidebar-footer">
                 <div class="user-info">
                     <div class="user-avatar">
-                        <?= strtoupper(substr($username ?? 'A', 0, 1)) ?>
+                        <?= strtoupper(substr($admin_username ?? 'A', 0, 1)) ?>
                     </div>
                     <div>
-                        <div class="user-name"><?= htmlspecialchars($username ?? 'Admin') ?></div>
+                        <div class="user-name"><?= htmlspecialchars($admin_username ?? 'Admin') ?></div>
                         <div class="user-role">Administrator</div>
                     </div>
                 </div>
@@ -535,7 +368,7 @@
                     <button class="hamburger" id="hamburger" onclick="toggleSidebar()">
                         <i class="fas fa-bars"></i>
                     </button>
-                    <h1 class="page-title">Create User</h1>
+                    <h1 class="page-title">Edit User</h1>
                 </div>
                 <div class="header-actions">
                     <button class="icon-btn" onclick="toggleTheme()" title="Toggle Theme">
@@ -546,56 +379,72 @@
 
             <div class="content">
                 <div class="card">
-                    <h2 class="card-title"><i class="fas fa-user-plus"></i> Create New User</h2>
+                    <h2 class="card-title"><i class="fas fa-user-edit"></i> Edit User Details</h2>
 
-                    <form action="/admin/users/store" method="POST" id="createForm">
+                    <form action="/admin/users/update" method="POST" id="editForm">
+                        <input type="hidden" name="id" value="<?= $user['id'] ?>">
+
                         <div class="form-group">
                             <label class="form-label" for="fullname">Full Name</label>
-                            <input type="text" id="fullname" name="fullname" class="form-input" placeholder="Enter full name" required>
+                            <input type="text" id="fullname" name="fullname" class="form-input"
+                                   value="<?= htmlspecialchars($user['full_name'] ?? '') ?>"
+                                   placeholder="Enter full name" required>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label" for="username">Username</label>
-                            <input type="text" id="username" name="username" class="form-input" placeholder="Enter username" required>
+                            <input type="text" id="username" class="form-input"
+                                   value="<?= htmlspecialchars($user['username']) ?>"
+                                   disabled style="opacity: 0.6;">
+                            <small style="color: var(--text-secondary); font-size: 12px;">
+                                <i class="fas fa-info-circle"></i> Username cannot be changed
+                            </small>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label" for="email">Email</label>
-                            <input type="email" id="email" name="email" class="form-input" placeholder="Enter email" required>
+                            <input type="email" id="email" name="email" class="form-input"
+                                   value="<?= htmlspecialchars($user['email']) ?>"
+                                   placeholder="Enter email" required>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label" for="phone">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" class="form-input" placeholder="Enter phone number">
+                            <input type="tel" id="phone" name="phone" class="form-input"
+                                   value="<?= htmlspecialchars($user['phone_number'] ?? '') ?>"
+                                   placeholder="Enter phone number">
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label" for="password">Password</label>
-                            <input type="password" id="password" name="password" class="form-input" placeholder="Enter password (min 8 chars)" required minlength="8">
+                            <label class="form-label" for="password">
+                                Password <small style="font-weight: normal; color: var(--text-secondary);">(leave blank to keep current)</small>
+                            </label>
+                            <input type="password" id="password" name="password" class="form-input"
+                                   placeholder="Enter new password (min 8 chars)" minlength="8">
                         </div>
 
                         <div class="form-group">
                             <label class="form-label" for="role">Role</label>
                             <select id="role" name="role" class="form-select" required>
-                                <option value="cashier" selected>Cashier</option>
-                                <option value="manager">Manager</option>
-                                <option value="sales">Sales</option>
-                                <option value="inventory">Inventory</option>
-                                <option value="admin">Admin</option>
+                                <option value="cashier" <?= ($user['role'] ?? '') === 'cashier' ? 'selected' : '' ?>>Cashier</option>
+                                <option value="manager" <?= ($user['role'] ?? '') === 'manager' ? 'selected' : '' ?>>Manager</option>
+                                <option value="sales" <?= ($user['role'] ?? '') === 'sales' ? 'selected' : '' ?>>Sales</option>
+                                <option value="inventory" <?= ($user['role'] ?? '') === 'inventory' ? 'selected' : '' ?>>Inventory</option>
+                                <option value="admin" <?= ($user['role'] ?? '') === 'admin' ? 'selected' : '' ?>>Admin</option>
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label" for="status">Status</label>
                             <select id="status" name="status" class="form-select" required>
-                                <option value="active" selected>Active</option>
-                                <option value="inactive">Inactive</option>
+                                <option value="active" <?= ($user['is_active'] ?? 0) ? 'selected' : '' ?>>Active</option>
+                                <option value="inactive" <?= !($user['is_active'] ?? 0) ? 'selected' : '' ?>>Inactive</option>
                             </select>
                         </div>
 
                         <div class="form-actions">
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-plus"></i> Create User
+                                <i class="fas fa-save"></i> Update User
                             </button>
                             <a href="/admin/users" class="btn btn-secondary">
                                 <i class="fas fa-times"></i> Cancel
@@ -605,25 +454,6 @@
                 </div>
             </div>
         </main>
-    </div>
-
-    <!-- Toast Container -->
-    <div class="toast-container" id="toastContainer"></div>
-
-    <!-- Error Alert Dialog -->
-    <div class="alert-overlay" id="errorModal">
-        <div class="alert-dialog">
-            <div class="alert-icon error">
-                <i class="fas fa-times-circle"></i>
-            </div>
-            <h3 class="alert-title">Error</h3>
-            <p class="alert-message" id="errorMessage"></p>
-            <div class="alert-actions">
-                <button class="alert-btn alert-btn-primary" onclick="closeErrorModal()">
-                    <i class="fas fa-check"></i> OK
-                </button>
-            </div>
-        </div>
     </div>
 
     <script>
@@ -676,65 +506,6 @@
                 closeSidebar();
             }
         });
-
-        // Toast System
-        function showToast(type, title, message) {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-
-            let icon = type === 'success' ? 'check' : 'times';
-
-            toast.innerHTML = `
-                <div class="toast-icon"><i class="fas fa-${icon}"></i></div>
-                <div class="toast-content">
-                    <div class="toast-title">${title}</div>
-                    <div class="toast-message">${message}</div>
-                </div>
-                <button class="toast-close" onclick="this.parentElement.remove()">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-
-            container.appendChild(toast);
-            setTimeout(() => toast.classList.add('show'), 10);
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 400);
-            }, 5000);
-        }
-
-        // Error Modal
-        function showError(message) {
-            document.getElementById('errorMessage').textContent = message;
-            document.getElementById('errorModal').classList.add('active');
-        }
-
-        function closeErrorModal() {
-            document.getElementById('errorModal').classList.remove('active');
-        }
-
-        document.getElementById('errorModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeErrorModal();
-            }
-        });
-
-        // Form validation
-        document.getElementById('createForm').addEventListener('submit', function(e) {
-            const password = document.getElementById('password').value;
-            if (password.length < 8) {
-                e.preventDefault();
-                showError('Password must be at least 8 characters long');
-                return false;
-            }
-        });
-
-        // Show PHP messages
-        <?php if (isset($_SESSION['error_message'])): ?>
-            showError('<?= addslashes($_SESSION['error_message']) ?>');
-            <?php unset($_SESSION['error_message']); ?>
-        <?php endif; ?>
     </script>
 </body>
 </html>
