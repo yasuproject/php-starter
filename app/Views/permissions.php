@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Permissions - Admin Panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        .fas, .far, .fab, .fa { color: inherit; }
         :root {
             --ion-color-primary: #6366f1;
             --bg: #0f172a;
@@ -356,15 +358,15 @@
             
             <nav class="nav-menu">
                 <a href="/admin/dashboard" class="nav-item">
-                    <span class="nav-icon">📊</span>
+                    <span class="nav-icon"><i class="fas fa-chart-line"></i></span>
                     <span>Dashboard</span>
                 </a>
                 <a href="/admin/users" class="nav-item">
-                    <span class="nav-icon">👥</span>
+                    <span class="nav-icon"><i class="fas fa-users"></i></span>
                     <span>Users</span>
                 </a>
                 <a href="/admin/permissions" class="nav-item active">
-                    <span class="nav-icon">🔐</span>
+                    <span class="nav-icon"><i class="fas fa-lock"></i></span>
                     <span>Permissions</span>
                 </a>
             </nav>
@@ -380,7 +382,7 @@
                     </div>
                 </div>
                 <a href="/logout" class="logout-btn">
-                    <span>🚪</span>
+                    <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>
                 </a>
             </div>
@@ -390,12 +392,14 @@
         <main class="main-content" id="mainContent">
             <header class="header">
                 <div class="header-left">
-                    <button class="hamburger" id="hamburger" onclick="toggleSidebar()">☰</button>
+                    <button class="hamburger" id="hamburger" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
                     <h1 class="page-title">Permissions</h1>
                 </div>
                 <div class="header-actions">
                     <button class="icon-btn" onclick="toggleTheme()" title="Toggle Theme">
-                        <span id="themeIcon">☀️</span>
+                        <i class="fas fa-sun" id="themeIcon"></i>
                     </button>
                 </div>
             </header>
@@ -489,10 +493,10 @@
         
         if (savedTheme === 'light') {
             html.setAttribute('data-theme', 'light');
-            themeIcon.textContent = '🌙';
+            themeIcon.className = 'fas fa-moon';
         } else {
             html.setAttribute('data-theme', 'dark');
-            themeIcon.textContent = '☀️';
+            themeIcon.className = 'fas fa-sun';
         }
         
         function toggleSidebar() {
@@ -515,11 +519,11 @@
             if (isDark) {
                 html.setAttribute('data-theme', 'light');
                 localStorage.setItem('theme', 'light');
-                themeIcon.textContent = '🌙';
+                themeIcon.className = 'fas fa-moon';
             } else {
                 html.setAttribute('data-theme', 'dark');
                 localStorage.setItem('theme', 'dark');
-                themeIcon.textContent = '☀️';
+                themeIcon.className = 'fas fa-sun';
             }
         }
         
