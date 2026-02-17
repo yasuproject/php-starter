@@ -27,6 +27,9 @@ $requestUri = $_SERVER['REQUEST_URI'];
 $path = parse_url($requestUri, PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];
 
+// Debug - log the request
+error_log("API Debug - URI: $requestUri, Path: $path, Method: $method");
+
 // Sanitize path
 $path = filter_var($path, FILTER_SANITIZE_URL);
 
