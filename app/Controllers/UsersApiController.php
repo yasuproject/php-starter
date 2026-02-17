@@ -100,8 +100,11 @@ class UsersApiController {
             }
 
             if ($search) {
-                $where[] = "(full_name LIKE :search OR username LIKE :search OR email LIKE :search)";
-                $params[':search'] = '%' . $search . '%';
+                $where[] = "(full_name LIKE :search1 OR username LIKE :search2 OR email LIKE :search3)";
+                $searchParam = '%' . $search . '%';
+                $params[':search1'] = $searchParam;
+                $params[':search2'] = $searchParam;
+                $params[':search3'] = $searchParam;
             }
 
             $whereClause = $where ? 'WHERE ' . implode(' AND ', $where) : '';
