@@ -42,6 +42,7 @@ $routes = [
         '/admin/permissions' => ['controller' => 'PermissionController', 'method' => 'index'],
         '/logout' => ['controller' => 'AuthController', 'method' => 'logout'],
         // API Routes - Users
+        '/api/test' => ['controller' => 'UsersApiController', 'method' => 'test'],
         '/api/users' => ['controller' => 'UsersApiController', 'method' => 'index'],
         '/api/users/me' => ['controller' => 'UsersApiController', 'method' => 'me'],
         '/api/users/show' => ['controller' => 'UsersApiController', 'method' => 'show'],

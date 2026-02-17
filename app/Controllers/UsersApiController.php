@@ -4,14 +4,37 @@ require_once __DIR__ . '/../Config/Database.php';
 
 class UsersApiController {
 
-    private function getApiKey() {
-        $headers = getallheaders();
-        $authHeader = $headers['Authorization'] ?? $headers['authorization'] ?? '';
+    // Test endpoint - no auth required
+    public function test() {
+        header('Content-Type: application/json');
+        echo json_encode([
+            'success' => true,
+            'message' => 'API is working!',
+            'timestamp' => date('Y-m-d H:i:s')
+        ]);
+        exit;
+    }
 
-        if (strpos($authHeader, 'Bearer ') === 0) {
-            return substr($authHeader, 7);
+    private function getApiKey() {
+        // Try headers first
+        if (function_exists('getallheaders')) {
+            $headers = getallheaders();
+            $authHeader = $headers['Authorization'] ?? $headers['authorization'] ?? '';
+            if (strpos($authHeader, 'Bearer ') === 0) {
+                return substr($authHeader, 7);
+            }
+        }
+        
+        // Try apache_request_headers
+        if (function_exists('apache_request_headers')) {
+            $headers = apache_request_headers();
+            $authHeader = $headers['Authorization'] ?? $headers['authorization'] ?? '';
+            if (strpos($authHeader, 'Bearer ') === 0) {
+                return substr($authHeader, 7);
+            }
         }
 
+        // Fallback to query parameter
         return $_GET['api_key'] ?? '';
     }
 
