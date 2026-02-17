@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Users - Admin Panel</title>
+    <title>Admin Users - Admin Panel</title>
     <style>
         :root {
             --ion-color-primary: #6366f1;
@@ -288,8 +288,8 @@
             color: var(--text-secondary);
         }
         
-        /* User List */
-        .user-list {
+        /* Admin List */
+        .admin-list {
             background: var(--card-bg);
             border-radius: 16px;
             border: 1px solid var(--border);
@@ -298,7 +298,7 @@
         
         .list-header {
             display: grid;
-            grid-template-columns: 2fr 1fr 1.5fr 1fr 100px;
+            grid-template-columns: 2fr 2fr 1fr 100px;
             padding: 16px 20px;
             background: rgba(99, 102, 241, 0.1);
             font-size: 13px;
@@ -308,30 +308,30 @@
             letter-spacing: 0.5px;
         }
         
-        .user-item {
+        .admin-item {
             display: grid;
-            grid-template-columns: 2fr 1fr 1.5fr 1fr 100px;
+            grid-template-columns: 2fr 2fr 1fr 100px;
             padding: 16px 20px;
             border-bottom: 1px solid var(--border);
             align-items: center;
             transition: background 0.2s;
         }
         
-        .user-item:last-child { border-bottom: none; }
+        .admin-item:last-child { border-bottom: none; }
         
-        .user-item:hover { background: rgba(99, 102, 241, 0.05); }
+        .admin-item:hover { background: rgba(99, 102, 241, 0.05); }
         
-        .user-info-cell {
+        .admin-info-cell {
             display: flex;
             align-items: center;
             gap: 12px;
         }
         
-        .user-avatar-sm {
+        .admin-avatar-sm {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -340,32 +340,16 @@
             font-size: 14px;
         }
         
-        .user-details h4 {
+        .admin-details h4 {
             font-size: 14px;
             font-weight: 600;
             margin-bottom: 2px;
         }
         
-        .user-details span {
+        .admin-details span {
             font-size: 12px;
             color: var(--text-secondary);
         }
-        
-        .role-badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: capitalize;
-        }
-        
-        .role-cashier { background: rgba(99, 102, 241, 0.2); color: #818cf8; }
-        .role-manager { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
-        .role-sales { background: rgba(16, 185, 129, 0.2); color: #10b981; }
-        .role-inventory { background: rgba(139, 92, 246, 0.2); color: #8b5cf6; }
-        .role-admin { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
         
         .status-badge {
             display: inline-flex;
@@ -396,7 +380,7 @@
         .status-active .status-dot { background: #10b981; }
         .status-inactive .status-dot { background: #ef4444; }
         
-        .user-actions {
+        .admin-actions {
             display: flex;
             gap: 8px;
         }
@@ -421,7 +405,7 @@
         /* Mobile List */
         .mobile-list { display: none; }
         
-        .mobile-user-card {
+        .mobile-admin-card {
             background: var(--card-bg);
             border-radius: 16px;
             padding: 16px;
@@ -429,25 +413,25 @@
             border: 1px solid var(--border);
         }
         
-        .mobile-user-header {
+        .mobile-admin-header {
             display: flex;
             align-items: center;
             gap: 12px;
             margin-bottom: 12px;
         }
         
-        .mobile-user-info h4 {
+        .mobile-admin-info h4 {
             font-size: 15px;
             font-weight: 600;
             margin-bottom: 2px;
         }
         
-        .mobile-user-info span {
+        .mobile-admin-info span {
             font-size: 13px;
             color: var(--text-secondary);
         }
         
-        .mobile-user-details {
+        .mobile-admin-details {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
@@ -471,7 +455,7 @@
             font-weight: 500;
         }
         
-        .mobile-user-footer {
+        .mobile-admin-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -530,7 +514,7 @@
                 font-size: 20px;
             }
             
-            .user-list { display: none; }
+            .admin-list { display: none; }
             .mobile-list { display: block; }
         }
         
@@ -580,15 +564,11 @@
                     <span class="nav-icon">📊</span>
                     <span>Dashboard</span>
                 </a>
-                <a href="/admin/users" class="nav-item active">
+                <a href="/admin/users" class="nav-item">
                     <span class="nav-icon">👥</span>
                     <span>Users</span>
                 </a>
-                <a href="/admin/users/create" class="nav-item">
-                    <span class="nav-icon">➕</span>
-                    <span>Create User</span>
-                </a>
-                <a href="/admin/admins" class="nav-item">
+                <a href="/admin/admins" class="nav-item active">
                     <span class="nav-icon">🔐</span>
                     <span>Admin Users</span>
                 </a>
@@ -620,12 +600,12 @@
             <header class="header">
                 <div class="header-left">
                     <button class="hamburger" id="hamburger" onclick="toggleSidebar()">☰</button>
-                    <h1 class="page-title">Users</h1>
+                    <h1 class="page-title">Admin Users</h1>
                 </div>
                 <div class="header-actions">
-                    <a href="/admin/users/create" class="btn-add">
+                    <a href="/admin/admins/create" class="btn-add">
                         <span>➕</span>
-                        <span>Add User</span>
+                        <span>Add Admin</span>
                     </a>
                     <button class="icon-btn" onclick="toggleTheme()" title="Toggle Theme">
                         <span id="themeIcon">☀️</span>
@@ -637,69 +617,60 @@
                 <!-- Stats -->
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-icon total">👥</div>
+                        <div class="stat-icon total">🔐</div>
                         <div class="stat-info">
-                            <h3><?= $total_users ?? 0 ?></h3>
-                            <p>Total Users</p>
+                            <h3><?= $total_admins ?? 0 ?></h3>
+                            <p>Total Admins</p>
                         </div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon active">✅</div>
                         <div class="stat-info">
-                            <h3><?= $active_users ?? 0 ?></h3>
+                            <h3><?= $active_admins ?? 0 ?></h3>
                             <p>Active</p>
                         </div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon inactive">❌</div>
                         <div class="stat-info">
-                            <h3><?= $inactive_users ?? 0 ?></h3>
+                            <h3><?= $inactive_admins ?? 0 ?></h3>
                             <p>Inactive</p>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Desktop List -->
-                <div class="user-list">
-                    <?php if (empty($users)): ?>
+                <div class="admin-list">
+                    <?php if (empty($admins)): ?>
                         <div class="empty-state">
-                            <div class="empty-state-icon">👥</div>
-                            <h3>No Users Found</h3>
-                            <p>Get started by creating your first user</p>
-                            <a href="/admin/users/create" class="btn-add">Create User</a>
+                            <div class="empty-state-icon">🔐</div>
+                            <h3>No Admin Users Found</h3>
+                            <p>Get started by creating your first admin user</p>
+                            <a href="/admin/admins/create" class="btn-add">Add Admin</a>
                         </div>
                     <?php else: ?>
                         <div class="list-header">
-                            <div>User</div>
-                            <div>Role</div>
-                            <div>Contact</div>
+                            <div>Username</div>
+                            <div>Email</div>
                             <div>Status</div>
                             <div>Actions</div>
                         </div>
-                        <?php foreach ($users as $user): ?>
-                            <div class="user-item">
-                                <div class="user-info-cell">
-                                    <div class="user-avatar-sm">
-                                        <?= strtoupper(substr($user['full_name'] ?? $user['username'], 0, 1)) ?>
+                        <?php foreach ($admins as $admin): ?>
+                            <div class="admin-item">
+                                <div class="admin-info-cell">
+                                    <div class="admin-avatar-sm">
+                                        <?= strtoupper(substr($admin['username'], 0, 1)) ?>
                                     </div>
-                                    <div class="user-details">
-                                        <h4><?= htmlspecialchars($user['full_name'] ?? '') ?></h4>
-                                        <span>@<?= htmlspecialchars($user['username']) ?></span>
+                                    <div class="admin-details">
+                                        <h4>@<?= htmlspecialchars($admin['username']) ?></h4>
+                                        <span>ID: <?= $admin['id'] ?></span>
                                     </div>
+                                </div>
+                                <div class="admin-details">
+                                    <span><?= htmlspecialchars($admin['email']) ?></span>
                                 </div>
                                 <div>
-                                    <span class="role-badge role-<?= $user['role'] ?? 'cashier' ?>">
-                                        <?= ucfirst($user['role'] ?? 'Cashier') ?>
-                                    </span>
-                                </div>
-                                <div class="user-details">
-                                    <span><?= htmlspecialchars($user['email']) ?></span>
-                                    <?php if (!empty($user['phone_number'])): ?>
-                                        <span><?= htmlspecialchars($user['phone_number']) ?></span>
-                                    <?php endif; ?>
-                                </div>
-                                <div>
-                                    <?php if ($user['is_active'] ?? false): ?>
+                                    <?php if ($admin['status'] === 'active'): ?>
                                         <span class="status-badge status-active">
                                             <span class="status-dot"></span>
                                             Active
@@ -711,7 +682,7 @@
                                         </span>
                                     <?php endif; ?>
                                 </div>
-                                <div class="user-actions">
+                                <div class="admin-actions">
                                     <button class="action-btn" title="Edit">✏️</button>
                                     <button class="action-btn delete" title="Delete">🗑️</button>
                                 </div>
@@ -722,35 +693,33 @@
                 
                 <!-- Mobile List -->
                 <div class="mobile-list">
-                    <?php if (empty($users)): ?>
+                    <?php if (empty($admins)): ?>
                         <div class="empty-state">
-                            <div class="empty-state-icon">👥</div>
-                            <h3>No Users Found</h3>
-                            <p>Get started by creating your first user</p>
-                            <a href="/admin/users/create" class="btn-add">Create User</a>
+                            <div class="empty-state-icon">🔐</div>
+                            <h3>No Admin Users Found</h3>
+                            <p>Get started by creating your first admin user</p>
+                            <a href="/admin/admins/create" class="btn-add">Add Admin</a>
                         </div>
                     <?php else: ?>
-                        <?php foreach ($users as $user): ?>
-                            <div class="mobile-user-card">
-                                <div class="mobile-user-header">
-                                    <div class="user-avatar-sm">
-                                        <?= strtoupper(substr($user['full_name'] ?? $user['username'], 0, 1)) ?>
+                        <?php foreach ($admins as $admin): ?>
+                            <div class="mobile-admin-card">
+                                <div class="mobile-admin-header">
+                                    <div class="admin-avatar-sm">
+                                        <?= strtoupper(substr($admin['username'], 0, 1)) ?>
                                     </div>
-                                    <div class="mobile-user-info">
-                                        <h4><?= htmlspecialchars($user['full_name'] ?? '') ?></h4>
-                                        <span>@<?= htmlspecialchars($user['username']) ?></span>
+                                    <div class="mobile-admin-info">
+                                        <h4>@<?= htmlspecialchars($admin['username']) ?></h4>
+                                        <span><?= htmlspecialchars($admin['email']) ?></span>
                                     </div>
                                 </div>
-                                <div class="mobile-user-details">
+                                <div class="mobile-admin-details">
                                     <div class="mobile-detail">
-                                        <label>Role</label>
-                                        <span class="role-badge role-<?= $user['role'] ?? 'cashier' ?>">
-                                            <?= ucfirst($user['role'] ?? 'Cashier') ?>
-                                        </span>
+                                        <label>ID</label>
+                                        <span>#<?= $admin['id'] ?></span>
                                     </div>
                                     <div class="mobile-detail">
                                         <label>Status</label>
-                                        <?php if ($user['is_active'] ?? false): ?>
+                                        <?php if ($admin['status'] === 'active'): ?>
                                             <span class="status-badge status-active">
                                                 <span class="status-dot"></span>
                                                 Active
@@ -762,17 +731,9 @@
                                             </span>
                                         <?php endif; ?>
                                     </div>
-                                    <div class="mobile-detail">
-                                        <label>Email</label>
-                                        <span><?= htmlspecialchars($user['email']) ?></span>
-                                    </div>
-                                    <div class="mobile-detail">
-                                        <label>Phone</label>
-                                        <span><?= htmlspecialchars($user['phone_number'] ?? 'N/A') ?></span>
-                                    </div>
                                 </div>
-                                <div class="mobile-user-footer">
-                                    <div class="user-actions">
+                                <div class="mobile-admin-footer">
+                                    <div class="admin-actions">
                                         <button class="action-btn" title="Edit">✏️</button>
                                         <button class="action-btn delete" title="Delete">🗑️</button>
                                     </div>

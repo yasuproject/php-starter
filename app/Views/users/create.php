@@ -337,8 +337,12 @@
                     <span class="nav-icon">➕</span>
                     <span>Create User</span>
                 </a>
-                <a href="/admin/permissions" class="nav-item">
+                <a href="/admin/admins" class="nav-item">
                     <span class="nav-icon">🔐</span>
+                    <span>Admin Users</span>
+                </a>
+                <a href="/admin/permissions" class="nav-item">
+                    <span class="nav-icon">🔑</span>
                     <span>Permissions</span>
                 </a>
             </nav>

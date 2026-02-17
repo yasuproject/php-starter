@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dashboard - Admin Panel</title>
+    <title>Create Admin User - Admin Panel</title>
     <style>
         :root {
             --ion-color-primary: #6366f1;
@@ -15,6 +15,7 @@
             --sidebar-active: #1e3a5f;
             --sidebar-active-border: #818cf8;
             --border: #334155;
+            --input-bg: #0f172a;
         }
         
         [data-theme="light"] {
@@ -26,6 +27,7 @@
             --sidebar-active: #eff6ff;
             --sidebar-active-border: #6366f1;
             --border: #e5e7eb;
+            --input-bg: #f9fafb;
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -39,7 +41,6 @@
         
         .app-container { display: flex; min-height: 100vh; }
         
-        /* Mobile Overlay */
         .mobile-overlay {
             display: none;
             position: fixed;
@@ -50,7 +51,6 @@
         
         .mobile-overlay.active { display: block; }
         
-        /* Sidebar */
         .sidebar {
             width: 280px;
             background: var(--sidebar-bg);
@@ -164,7 +164,6 @@
             text-decoration: none;
         }
         
-        /* Main Content */
         .main-content {
             flex: 1;
             margin-left: 280px;
@@ -227,53 +226,39 @@
         
         .content { flex: 1; padding: 24px; }
         
-        /* Stats Grid - 2 columns horizontal */
-        .stats-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 24px;
-        }
-        
-        .stat-card {
+        .card {
             background: var(--card-bg);
-            border-radius: 16px;
-            padding: 20px;
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-        
-        .stat-icon {
-            width: 52px;
-            height: 52px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 26px;
-        }
-        
-        .stat-icon.blue { background: rgba(99, 102, 241, 0.15); }
-        .stat-icon.green { background: rgba(16, 185, 129, 0.15); }
-        .stat-icon.orange { background: rgba(245, 158, 11, 0.15); }
-        .stat-icon.red { background: rgba(239, 68, 68, 0.15); }
-        
-        .stat-info h3 { font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .stat-info p { font-size: 28px; font-weight: 700; }
-        
-        /* Welcome Card */
-        .welcome-card {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
             border-radius: 16px;
             padding: 24px;
             border: 1px solid var(--border);
-            margin-bottom: 24px;
+            max-width: 600px;
         }
         
-        .welcome-card h2 { font-size: 20px; margin-bottom: 12px; }
-        .welcome-card p { color: var(--text-secondary); line-height: 1.6; margin-bottom: 20px; }
+        .card-title { font-size: 18px; font-weight: 600; margin-bottom: 24px; }
+        
+        .form-group { margin-bottom: 20px; }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .form-input, .form-select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 15px;
+            background: var(--input-bg);
+            color: var(--text-primary);
+        }
+        
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--ion-color-primary);
+        }
         
         .btn {
             display: inline-flex;
@@ -290,11 +275,11 @@
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
             color: white;
         }
         
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3); }
         
         .btn-secondary {
             background: rgba(255,255,255,0.1);
@@ -302,14 +287,18 @@
             border: 1px solid var(--border);
         }
         
-        /* Mobile */
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+        }
+        
         @media (max-width: 768px) {
             .sidebar { transform: translateX(-100%); }
             .sidebar.open { transform: translateX(0); }
             .main-content { margin-left: 0; }
             .hamburger { display: flex; }
-            .stats-row { grid-template-columns: 1fr; }
-            .page-title { font-size: 18px; }
+            .card { max-width: 100%; }
         }
         
         @media (min-width: 769px) {
@@ -320,10 +309,8 @@
 </head>
 <body>
     <div class="app-container">
-        <!-- Mobile Overlay -->
         <div class="mobile-overlay" id="mobileOverlay" onclick="closeSidebar()"></div>
         
-        <!-- Sidebar Navigation Drawer -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-logo">🛡️</div>
@@ -331,7 +318,7 @@
             </div>
             
             <nav class="nav-menu">
-                <a href="/admin/dashboard" class="nav-item active">
+                <a href="/admin/dashboard" class="nav-item">
                     <span class="nav-icon">📊</span>
                     <span>Dashboard</span>
                 </a>
@@ -343,6 +330,10 @@
                     <span class="nav-icon">🔐</span>
                     <span>Admin Users</span>
                 </a>
+                <a href="/admin/admins/create" class="nav-item active">
+                    <span class="nav-icon">➕</span>
+                    <span>Create Admin</span>
+                </a>
                 <a href="/admin/permissions" class="nav-item">
                     <span class="nav-icon">🔑</span>
                     <span>Permissions</span>
@@ -352,10 +343,10 @@
             <div class="sidebar-footer">
                 <div class="user-info">
                     <div class="user-avatar">
-                        <?= strtoupper(substr($username ?? 'A', 0, 1)) ?>
+                        <?= strtoupper(substr($admin_username ?? 'A', 0, 1)) ?>
                     </div>
                     <div>
-                        <div class="user-name"><?= htmlspecialchars($username ?? 'Admin') ?></div>
+                        <div class="user-name"><?= htmlspecialchars($admin_username ?? 'Admin') ?></div>
                         <div class="user-role">Administrator</div>
                     </div>
                 </div>
@@ -366,12 +357,11 @@
             </div>
         </aside>
         
-        <!-- Main Content -->
         <main class="main-content" id="mainContent">
             <header class="header">
                 <div class="header-left">
                     <button class="hamburger" id="hamburger" onclick="toggleSidebar()">☰</button>
-                    <h1 class="page-title">Dashboard</h1>
+                    <h1 class="page-title">Create Admin User</h1>
                 </div>
                 <div class="header-actions">
                     <button class="icon-btn" onclick="toggleTheme()" title="Toggle Theme">
@@ -381,55 +371,41 @@
             </header>
             
             <div class="content">
-                <!-- Stats Row - 2 columns horizontal -->
-                <div class="stats-row">
-                    <div class="stat-card">
-                        <div class="stat-icon blue">👥</div>
-                        <div class="stat-info">
-                            <h3>Total Users</h3>
-                            <p><?= $totalUsers ?? 0 ?></p>
-                        </div>
-                    </div>
+                <div class="card">
+                    <h2 class="card-title">Create New Admin User</h2>
                     
-                    <div class="stat-card">
-                        <div class="stat-icon green">✨</div>
-                        <div class="stat-info">
-                            <h3>New Today</h3>
-                            <p><?= $newUsersToday ?? 0 ?></p>
+                    <form action="/admin/admins/store" method="POST">
+                        <div class="form-group">
+                            <label class="form-label" for="username">Username</label>
+                            <input type="text" id="username" name="username" class="form-input" placeholder="Enter username" required>
                         </div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon orange">⏱️</div>
-                        <div class="stat-info">
-                            <h3>Active Sessions</h3>
-                            <p><?= $activeSessions ?? 0 ?></p>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="email">Email</label>
+                            <input type="email" id="email" name="email" class="form-input" placeholder="Enter email" required>
                         </div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon red">🛡️</div>
-                        <div class="stat-info">
-                            <h3>Admins</h3>
-                            <p><?= $adminUsers ?? 0 ?></p>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="password">Password</label>
+                            <input type="password" id="password" name="password" class="form-input" placeholder="Enter password (min 8 chars)" required minlength="8">
                         </div>
-                    </div>
-                </div>
-                
-                <!-- Welcome Card -->
-                <div class="welcome-card">
-                    <h2>Welcome Back! 👋</h2>
-                    <p>Manage your users, control permissions, and monitor system activity from this dashboard.</p>
-                    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                        <a href="/admin/users/create" class="btn btn-primary">
-                            <span>➕</span>
-                            Create User
-                        </a>
-                        <a href="/admin/permissions" class="btn btn-secondary">
-                            <span>🔐</span>
-                            Permissions
-                        </a>
-                    </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="status">Status</label>
+                            <select id="status" name="status" class="form-select" required>
+                                <option value="active" selected>Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <span>➕</span>
+                                Create Admin
+                            </button>
+                            <a href="/admin/admins" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </main>
@@ -441,7 +417,6 @@
         const mobileOverlay = document.getElementById('mobileOverlay');
         const html = document.documentElement;
         
-        // Check saved theme
         const savedTheme = localStorage.getItem('theme');
         const themeIcon = document.getElementById('themeIcon');
         
@@ -453,7 +428,6 @@
             themeIcon.textContent = '☀️';
         }
         
-        // Sidebar functions
         function toggleSidebar() {
             if (window.innerWidth <= 768) {
                 sidebar.classList.toggle('open');
@@ -469,7 +443,6 @@
             mobileOverlay.classList.remove('active');
         }
         
-        // Theme toggle
         function toggleTheme() {
             const isDark = html.getAttribute('data-theme') === 'dark';
             if (isDark) {
@@ -483,7 +456,6 @@
             }
         }
         
-        // Close sidebar on window resize to desktop
         window.addEventListener('resize', function() {
             if (window.innerWidth > 768) {
                 closeSidebar();
