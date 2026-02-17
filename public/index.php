@@ -27,9 +27,6 @@ $requestUri = $_SERVER['REQUEST_URI'];
 $path = parse_url($requestUri, PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];
 
-// Debug - log the request
-error_log("API Debug - URI: $requestUri, Path: $path, Method: $method");
-
 // Sanitize path
 $path = filter_var($path, FILTER_SANITIZE_URL);
 
@@ -45,7 +42,6 @@ $routes = [
         '/admin/permissions' => ['controller' => 'PermissionController', 'method' => 'index'],
         '/logout' => ['controller' => 'AuthController', 'method' => 'logout'],
         // API Routes - Users
-        '/api/test' => ['controller' => 'UsersApiController', 'method' => 'test'],
         '/api/users' => ['controller' => 'UsersApiController', 'method' => 'index'],
         '/api/users/me' => ['controller' => 'UsersApiController', 'method' => 'me'],
         '/api/users/show' => ['controller' => 'UsersApiController', 'method' => 'show'],

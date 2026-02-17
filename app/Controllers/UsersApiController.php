@@ -4,17 +4,6 @@ require_once __DIR__ . '/../Config/Database.php';
 
 class UsersApiController {
 
-    // Test endpoint - no auth required
-    public function test() {
-        header('Content-Type: application/json');
-        echo json_encode([
-            'success' => true,
-            'message' => 'API is working!',
-            'timestamp' => date('Y-m-d H:i:s')
-        ]);
-        exit;
-    }
-
     private function getApiKey() {
         // Try headers first
         if (function_exists('getallheaders')) {
@@ -62,8 +51,12 @@ class UsersApiController {
 
     private function jsonResponse($data, $statusCode = 200) {
         http_response_code($statusCode);
-        header('Content-Type: application/json');
-        echo json_encode($data);
+        header('Content-Type: application/json; charset=utf-8');
+        header('X-Content-Type-Options: nosniff');
+        header('X-Frame-Options: DENY');
+        header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+        
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
         exit;
     }
 
