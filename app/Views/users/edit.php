@@ -44,6 +44,15 @@
             min-height: 100vh;
         }
 
+        /* Font Awesome Icon Colors */
+        .fas, .far, .fab, .fa {
+            color: inherit;
+        }
+
+        .nav-icon .fas {
+            color: currentColor;
+        }
+
         .app-container { display: flex; min-height: 100vh; }
 
         .mobile-overlay {

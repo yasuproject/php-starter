@@ -42,6 +42,30 @@
             min-height: 100vh;
         }
 
+        /* Font Awesome Icon Colors */
+        .fas, .far, .fab, .fa {
+            color: inherit;
+        }
+
+        .stat-icon .fas,
+        .stat-icon .far,
+        .stat-icon .fab {
+            color: currentColor;
+        }
+
+        .action-btn .fas,
+        .action-btn .far {
+            color: currentColor;
+        }
+
+        .alert-icon .fas {
+            color: currentColor;
+        }
+
+        .toast-icon .fas {
+            color: white;
+        }
+
         .app-container { display: flex; min-height: 100vh; }
 
         /* Mobile Overlay */
