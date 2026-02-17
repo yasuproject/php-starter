@@ -38,8 +38,6 @@ $routes = [
         '/admin/dashboard' => ['controller' => 'AuthController', 'method' => 'dashboard'],
         '/admin/users' => ['controller' => 'UserController', 'method' => 'index'],
         '/admin/users/create' => ['controller' => 'UserController', 'method' => 'create'],
-        '/admin/admins' => ['controller' => 'AdminUsersController', 'method' => 'index'],
-        '/admin/admins/create' => ['controller' => 'AdminUsersController', 'method' => 'create'],
         '/admin/permissions' => ['controller' => 'PermissionController', 'method' => 'index'],
         '/logout' => ['controller' => 'AuthController', 'method' => 'logout'],
     ],
@@ -47,7 +45,6 @@ $routes = [
         '/login' => ['controller' => 'AuthController', 'method' => 'authenticate'],
         '/admin/login' => ['controller' => 'AuthController', 'method' => 'authenticate'],
         '/admin/users/store' => ['controller' => 'UserController', 'method' => 'store'],
-        '/admin/admins/store' => ['controller' => 'AdminUsersController', 'method' => 'store'],
         '/admin/permissions/save' => ['controller' => 'PermissionController', 'method' => 'save'],
     ]
 ];
