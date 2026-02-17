@@ -72,7 +72,7 @@ class UserController {
             $pdo = $db->getConnection();
             
             // Check if username already exists
-            $stmt = $pdo->prepare("SELECT id FROM admin WHERE username = :username LIMIT 1");
+            $stmt = $pdo->prepare("SELECT id FROM users WHERE username = :username LIMIT 1");
             $stmt->execute([':username' => $username]);
             if ($stmt->fetch()) {
                 $_SESSION['error_message'] = 'Username already exists';
@@ -81,7 +81,7 @@ class UserController {
             }
             
             // Check if email already exists
-            $stmt = $pdo->prepare("SELECT id FROM admin WHERE email = :email LIMIT 1");
+            $stmt = $pdo->prepare("SELECT id FROM users WHERE email = :email LIMIT 1");
             $stmt->execute([':email' => $email]);
             if ($stmt->fetch()) {
                 $_SESSION['error_message'] = 'Email already exists';
@@ -94,17 +94,19 @@ class UserController {
             
             // Insert new user
             $stmt = $pdo->prepare("
-                INSERT INTO admin (fullname, username, email, password_hash, role, status, created_at) 
-                VALUES (:fullname, :username, :email, :password_hash, :role, :status, NOW())
+                INSERT INTO users (full_name, username, email, password, role, is_active, created_at) 
+                VALUES (:full_name, :username, :email, :password, :role, :is_active, NOW())
             ");
             
+            $isActive = ($status === 'active') ? 1 : 0;
+            
             $stmt->execute([
-                ':fullname' => $fullname,
+                ':full_name' => $fullname,
                 ':username' => $username,
                 ':email' => $email,
-                ':password_hash' => $passwordHash,
+                ':password' => $passwordHash,
                 ':role' => $role,
-                ':status' => $status
+                ':is_active' => $isActive
             ]);
             
             $_SESSION['success_message'] = 'User created successfully!';
