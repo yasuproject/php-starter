@@ -411,6 +411,7 @@
                                 <option value="manager">Manager</option>
                                 <option value="sales">Sales</option>
                                 <option value="inventory">Inventory</option>
+                                <option value="admin">Admin</option>
                             </select>
                         </div>
                         
