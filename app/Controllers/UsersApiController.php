@@ -101,14 +101,18 @@ class UsersApiController {
 
             if ($search) {
                 $where[] = "(full_name LIKE :search OR username LIKE :search OR email LIKE :search)";
-                $params[':search'] = "%$search%";
+                $params[':search'] = '%' . $search . '%';
             }
 
             $whereClause = $where ? 'WHERE ' . implode(' AND ', $where) : '';
 
             // Get total count
-            $countStmt = $pdo->prepare("SELECT COUNT(*) as total FROM users $whereClause");
-            $countStmt->execute($params);
+            $countSql = "SELECT COUNT(*) as total FROM users $whereClause";
+            $countStmt = $pdo->prepare($countSql);
+            foreach ($params as $key => $value) {
+                $countStmt->bindValue($key, $value);
+            }
+            $countStmt->execute();
             $total = $countStmt->fetch()['total'];
 
             // Get users
